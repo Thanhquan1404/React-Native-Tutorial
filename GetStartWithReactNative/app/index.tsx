@@ -1,36 +1,66 @@
-import React from 'react'
+import React from 'react';
 import {
   KeyboardAvoidingView,
   Text,
   StyleSheet,
   Platform,
-} from 'react-native'
+  ImageBackground,
+  View,
+} from 'react-native';
 import SearchInput from './components/SearchInput';
 
-export default class App extends React.Component {
+interface AppState {
+  location: string;
+}
+
+export default class App extends React.Component<any, AppState> {
+  state: AppState;
+
+  constructor(props: any) {
+    super(props);
+
+    this.state = {
+      location: 'San Francisco',
+    };
+  }
+
+  handleLocationSubmit = (location: string): void => {
+    this.setState({ location });
+  };
+
   render() {
+    const { location } = this.state;
+
     return (
       <KeyboardAvoidingView
         style={styles.container}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       >
-        <Text style={[styles.largeText, styles.textStyle]}>
-          San Francisco
-        </Text>
+        <ImageBackground style={styles.imageContainer} resizeMode="cover">
+          <View>
+            <Text style={[styles.largeText, styles.textStyle]}>
+              {location}
+            </Text>
 
-        <Text style={[styles.smallText, styles.textStyle]}>
-          Light Cloud
-        </Text>
+            <Text style={[styles.smallText, styles.textStyle]}>
+              Light Cloud
+            </Text>
 
-        <Text style={[styles.largeText, styles.textStyle]}>
-          24°
-        </Text>
+            <Text style={[styles.largeText, styles.textStyle]}>
+              24°
+            </Text>
 
-        <SearchInput placeholder='Type here'/>
+            <SearchInput
+              placeholder="Search any city"
+              onSubmit={this.handleLocationSubmit}
+            />
+          </View>
+        </ImageBackground>
       </KeyboardAvoidingView>
     );
   }
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -38,6 +68,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  imageContainer: {
+    flex: 1,
   },
   textStyle: {
     textAlign: 'center',
