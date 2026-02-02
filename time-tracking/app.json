@@ -4,7 +4,6 @@
     "slug": "time-tracking",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
     "scheme": "timetracking",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,

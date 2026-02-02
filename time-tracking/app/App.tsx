@@ -3,35 +3,66 @@ import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 import EditableTimer from './components/EditableTimer';
 import ToggleableTimerForm from './components/ToggleableTimerForm';
+import uuid from 'react-native-uuid';
 
-export default class App extends React.Component {
+
+interface TimerType {
+  title: string, 
+  project: string,
+  id: string,
+  elapsed: string | number,
+  isRunning: boolean,
+}
+interface StateType {
+  timers: TimerType[],
+}
+export default class App extends React.Component<any, StateType> {
+
+  state: StateType = {
+    timers: [
+      {
+        title: 'Mow the lawn', 
+        project: 'House Chores',
+        id: uuid.v4().toString(),
+        elapsed: 5456099,
+        isRunning: true,
+      },
+      {
+        title: 'Bake squash', 
+        project: 'Kitchen Chores',
+        id: uuid.v4().toString(),
+        elapsed: 1273998,
+        isRunning: false,
+      },
+    ],
+  }
   /**
    * Initalize App component 
    * @returns App component
    */
   render(): React.ReactNode {
+    const {timers} = this.state;
+
       return (
         <View style={styles.appContainer}>
           <View style={styles.titleContainer}>
             <Text style={styles.title}>Timers</Text>
           </View>
         
-          <ScrollView style={styles.titleContainer}>
+          <ScrollView style={styles.timerList}>
             <ToggleableTimerForm isOpen={false} />
-            <EditableTimer 
-              id="1"
-              title="Mow the lawn"
-              project="House Chores"
-              elapsed="8986300"
-              isRunning
-            />
-            <EditableTimer 
-              id="2"
-              title="Bake squash"
-              project="Kitchen Chores"
-              elapsed="3890985"
-              editFormOpen
-            />
+            {
+              timers.map(({title, project, id, elapsed, isRunning}) => (
+                <EditableTimer 
+                  key={id}
+                  id={id}
+                  title={title}
+                  project={project}
+                  elapsed={elapsed}
+                  isRunning={isRunning}
+                />
+              ))
+            }
           </ScrollView>
         </View>
       );
