@@ -21,7 +21,7 @@ export default function Timer({title, project, elapsed}: Props): React.ReactNode
         <TimerButton color="blue" small title="Edit" />
         <TimerButton color="blue" small title="Remove" />
       </View>
-      <TimerButton color="21BA45" title="Start" />
+      <TimerButton color="#66FF00" title="Start" />
     </View>
   );
 }
