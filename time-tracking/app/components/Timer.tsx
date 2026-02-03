@@ -11,9 +11,15 @@ interface Props {
   elapsed?: string | number,
   isRunning?: boolean,
   onEditPress: () => void,
+  onRemovePress: (id: string) => void,
 }
 
 export default class Timer extends React.Component<Props> {
+  handleRemovePress = () => {
+    const {id, onRemovePress} = this.props;
+
+    onRemovePress(id || '');
+  }
   render(): React.ReactNode {
     const {title, project, elapsed, onEditPress} = this.props;
     const elapsedString = millisecondsToHuman(elapsed || "0");
@@ -26,7 +32,7 @@ export default class Timer extends React.Component<Props> {
         <Text style={styles.elapsedTime}>{elapsedString}</Text>
         <View style={styles.buttonGroup}>
           <TimerButton color="blue" small title="Edit" onPress={onEditPress}/>
-          <TimerButton color="blue" small title="Remove" />
+          <TimerButton color="blue" small title="Remove" onPress={this.handleRemovePress}/>
         </View>
         <TimerButton color="#66FF00" title="Start" />
       </View>

@@ -69,6 +69,12 @@ export default class App extends React.Component<any, StateType> {
     });
   };
 
+  handleRemovePress = (timerId: string) => {
+    this.setState({
+      timers: this.state.timers.filter(t => t.id !== timerId),
+    });
+  }
+
   /**
    * Initalize App component 
    * @returns App component
@@ -94,6 +100,7 @@ export default class App extends React.Component<any, StateType> {
                   elapsed={elapsed}
                   isRunning={isRunning}
                   onFormSubmit={this.handleFormSubmit}
+                  onRemovePress={this.handleRemovePress}
                 />
               ))
             }
