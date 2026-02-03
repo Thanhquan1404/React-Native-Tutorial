@@ -5,26 +5,34 @@ import TimerButton from "./TImerButton";
 import { StyleSheet, Text, View } from "react-native";
 
 interface Props {
+  id?: string
   title?: string,
   project?: string,
   elapsed?: string | number,
+  isRunning?: boolean,
+  onEditPress: () => void,
 }
-export default function Timer({title, project, elapsed}: Props): React.ReactNode{
-  const elapsedString = millisecondsToHuman(elapsed || "0");
 
-  return (
-    <View style={styles.timerContainer}>
-      <Text style={styles.title}>{title}</Text>
-      <Text>{project}</Text>
-      <Text style={styles.elapsedTime}>{elapsedString}</Text>
-      <View style={styles.buttonGroup}>
-        <TimerButton color="blue" small title="Edit" />
-        <TimerButton color="blue" small title="Remove" />
+export default class Timer extends React.Component<Props> {
+  render(): React.ReactNode {
+    const {title, project, elapsed, onEditPress} = this.props;
+    const elapsedString = millisecondsToHuman(elapsed || "0");
+    
+
+    return (
+      <View style={styles.timerContainer}>
+        <Text style={styles.title}>{title}</Text>
+        <Text>{project}</Text>
+        <Text style={styles.elapsedTime}>{elapsedString}</Text>
+        <View style={styles.buttonGroup}>
+          <TimerButton color="blue" small title="Edit" onPress={onEditPress}/>
+          <TimerButton color="blue" small title="Remove" />
+        </View>
+        <TimerButton color="#66FF00" title="Start" />
       </View>
-      <TimerButton color="#66FF00" title="Start" />
-    </View>
-  );
-}
+    );
+  }
+};
 
 const styles = StyleSheet.create({
   timerContainer: {

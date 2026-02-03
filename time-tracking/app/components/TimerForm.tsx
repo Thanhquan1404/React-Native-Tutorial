@@ -8,7 +8,7 @@ interface Props {
   title?: string,
   project?: string,
   onFormClose?: () => void,
-  onFormSubmit: (timer: {title?: string, project?: string, id?: string, elapsed?: number, isRunning?: boolean} ) => void,
+  onFormSubmit: (timer: {title?: string, project?: string, id?: string, elapsed?: number, isRunning?: boolean}) => void,
 }
 interface StateType {
   title: string,

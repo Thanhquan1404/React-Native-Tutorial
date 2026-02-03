@@ -9,6 +9,7 @@ interface Props {
   project: string,
   elapsed: string | number,
   isRunning?: boolean,
+  onFormSubmit: (attrs: {title?: string, project?: string, id?: string, elapsed?: number, isRunning?: boolean}) => void,
 }
 
 interface StateType {
@@ -20,21 +21,45 @@ export default class EditableTimer extends React.Component<Props, StateType> {
     editFormOpen: false,
   }
 
+  handleEditPress = () => {
+    this.openForm();
+  }
+
+  handleFormClose = () => {
+    this.closeForm();
+  }
+
+  handleSubmit = (timer: {title?: string, project?: string, id?: string, elapsed?: number, isRunning?: boolean}) => {
+    const { onFormSubmit } = this.props;
+
+    onFormSubmit(timer);
+    this.closeForm();
+  }
+
+  closeForm = () => {
+    this.setState({editFormOpen: false});
+  }
+
+  openForm = () => {
+    this.setState({editFormOpen: true});
+  }
+
   render(): React.ReactNode {
     const { id, title, project, elapsed, isRunning} = this.props;
     const {editFormOpen} = this.state;
 
     if (editFormOpen){
-      return (<TimerForm id={id} title={title} project={project} />)
+      return (<TimerForm id={id} title={title} project={project} onFormSubmit={this.handleSubmit} onFormClose={this.handleFormClose}/>)
     }
 
     return (
       <Timer 
-        // id={id}
+        id={id}
         title={title}
         project={project}
         elapsed={elapsed || "0"}
-        // isRunning={isRunning}
+        onEditPress={this.handleEditPress}
+        isRunning={isRunning}
       />
     );
   }
