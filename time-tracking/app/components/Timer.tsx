@@ -12,6 +12,8 @@ interface Props {
   isRunning?: boolean,
   onEditPress: () => void,
   onRemovePress: (id: string) => void,
+  onStartPress: (id: string) => void,
+  onStopPress: (id: string) => void,
 }
 
 export default class Timer extends React.Component<Props> {
@@ -19,6 +21,40 @@ export default class Timer extends React.Component<Props> {
     const {id, onRemovePress} = this.props;
 
     onRemovePress(id || '');
+  }
+
+  handleStartPress = () => {
+    const { id, onStartPress } = this.props;
+
+    onStartPress(id || '');
+  };
+
+  handleStopPress = () => {
+    const { id, onStopPress } = this.props;
+
+    onStopPress(id || '');
+  };
+
+  renderActionButton = (): React.ReactNode => {
+    const { isRunning } = this.props;
+
+    if (isRunning) {
+      return (
+        <TimerButton 
+          color="#DB2828"
+          title="Stop"
+          onPress={this.handleStopPress}
+        />
+      );
+    }
+
+    return (
+      <TimerButton 
+        color="#21BA45"
+        title="Start"
+        onPress={this.handleStartPress}
+      />
+    );
   }
   render(): React.ReactNode {
     const {title, project, elapsed, onEditPress} = this.props;
@@ -34,7 +70,7 @@ export default class Timer extends React.Component<Props> {
           <TimerButton color="blue" small title="Edit" onPress={onEditPress}/>
           <TimerButton color="blue" small title="Remove" onPress={this.handleRemovePress}/>
         </View>
-        <TimerButton color="#66FF00" title="Start" />
+        {this.renderActionButton()}
       </View>
     );
   }
